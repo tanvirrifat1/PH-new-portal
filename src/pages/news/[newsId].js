@@ -7,12 +7,17 @@ import {
   CommentOutlined,
   ProfileOutlined,
 } from "@ant-design/icons";
+import { useGetSingleNewsQuery } from "@/redux/api/api";
+import { useRouter } from "next/router";
 
-const NewsDetailPage = ({ news }) => {
-  if (!news) {
+const NewsDetailPage = () => {
+  const router = useRouter();
+  const { newsId } = router.query;
+  const { data, error, isLoading } = useGetSingleNewsQuery(newsId);
+
+  if (isLoading) {
     return <p>Loading...</p>;
   }
-
   return (
     <div>
       <Row
@@ -26,7 +31,7 @@ const NewsDetailPage = ({ news }) => {
         <Col className="gutter-row" span={12}>
           <div>
             <Image
-              src={news?.image_url}
+              src={data?.image_url}
               width={800}
               height={400}
               responsive
@@ -36,7 +41,7 @@ const NewsDetailPage = ({ news }) => {
         </Col>
         <Col className="gutter-row" span={12}>
           <div>
-            <h1>title={news?.title}</h1>
+            <h1>title={data?.title}</h1>
             <div
               className="line"
               style={{
@@ -58,19 +63,19 @@ const NewsDetailPage = ({ news }) => {
               }}
             >
               <span>
-                <CalendarOutlined /> {news?.release_date}
+                <CalendarOutlined /> {data?.release_date}
               </span>
               <span>
-                <CommentOutlined /> {news?.comment_count} COMMENTS
+                <CommentOutlined /> {data?.comment_count} COMMENTS
               </span>
               <span>
-                <ProfileOutlined /> {news?.category}
+                <ProfileOutlined /> {data?.category}
               </span>
             </p>
 
-            <p style={{ fontSize: "20px" }}>{news?.description}</p>
+            <p style={{ fontSize: "20px" }}>{data?.description}</p>
           </div>
-          <h1>Author: {news?.author}</h1>
+          <h1>Author: {data?.author}</h1>
         </Col>
       </Row>
     </div>
@@ -83,25 +88,25 @@ NewsDetailPage.getLayout = function getLayout(page) {
   return <RootLayout>{page}</RootLayout>;
 };
 
-export const getStaticPaths = async () => {
-  const res = await fetch("http://localhost:5000/news");
-  const newses = await res.json();
+// export const getStaticPaths = async () => {
+//   const res = await fetch("http://localhost:5000/news");
+//   const newses = await res.json();
 
-  const paths = newses.map((news) => ({
-    params: { newsId: news.id.toString() },
-  }));
+//   const paths = newses.map((news) => ({
+//     params: { newsId: news.id.toString() },
+//   }));
 
-  return { paths, fallback: true };
-};
+//   return { paths, fallback: true };
+// };
 
-export const getStaticProps = async (context) => {
-  const { params } = context;
-  const res = await fetch(`http://localhost:5000/news/${params?.newsId}`);
-  const data = await res.json();
+// export const getServerSideProps = async (context) => {
+//   const { params } = context;
+//   const res = await fetch(`http://localhost:5000/news/${params?.newsId}`);
+//   const data = await res.json();
 
-  return {
-    props: {
-      news: data,
-    },
-  };
-};
+//   return {
+//     props: {
+//       news: data,
+//     },
+//   };
+// };
