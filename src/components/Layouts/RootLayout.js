@@ -85,16 +85,16 @@ const RootLayout = ({ children }) => {
           PH-NEWS PORTAL
         </h2>
         <p className={styles.social_icons}>
-          <Link href="https://web.facebook.com/groups/programmingherocommunity">
+          <Link href="">
             <FacebookFilled />
           </Link>
-          <Link href="www.twitter.com">
+          <Link href="">
             <TwitterSquareFilled />
           </Link>
-          <Link href="https://web.programming-hero.com/home/">
+          <Link href="">
             <GoogleSquareFilled />
           </Link>
-          <Link href="www.linkedin.com">
+          <Link href="">
             <LinkedinFilled />
           </Link>
         </p>
