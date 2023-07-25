@@ -3,6 +3,8 @@ import styles from "@/styles/Create.module.css";
 import Link from "next/link";
 import { Button } from "antd";
 
+import style from "@/styles/About.module.css";
+
 const CreateNews = () => {
   const { register, handleSubmit } = useForm();
 
@@ -66,10 +68,12 @@ const CreateNews = () => {
           value="Create News"
           style={{ margin: "10px 0px", width: "100%" }}
         />
+        <div className={style.heading}>
+          <Link href="/">
+            <Button type="dashed">Back Home</Button>
+          </Link>
+        </div>
       </form>
-      <Link href="/">
-        <Button type="dashed">Back Home</Button>
-      </Link>
     </div>
   );
 };
