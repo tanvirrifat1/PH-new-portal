@@ -10,14 +10,17 @@ import {
 import { useGetSingleNewsQuery } from "@/redux/api/api";
 import { useRouter } from "next/router";
 
-const NewsDetailPage = () => {
+const NewsDetailPage = ({ news }) => {
+  if (!news) {
+    return <p>Loading...</p>;
+  }
+
+  console.log(news);
+
   const router = useRouter();
   const { newsId } = router.query;
   const { data, error, isLoading } = useGetSingleNewsQuery(newsId);
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
   return (
     <div>
       <Row
@@ -31,7 +34,7 @@ const NewsDetailPage = () => {
         <Col className="gutter-row" span={12}>
           <div>
             <Image
-              src={data?.image_url}
+              src={news?.image_url}
               width={800}
               height={400}
               responsive
@@ -41,7 +44,7 @@ const NewsDetailPage = () => {
         </Col>
         <Col className="gutter-row" span={12}>
           <div>
-            <h1>title={data?.title}</h1>
+            <h1>title={news?.title}</h1>
             <div
               className="line"
               style={{
@@ -63,19 +66,19 @@ const NewsDetailPage = () => {
               }}
             >
               <span>
-                <CalendarOutlined /> {data?.release_date}
+                <CalendarOutlined /> {news?.release_date}
               </span>
               <span>
-                <CommentOutlined /> {data?.comment_count} COMMENTS
+                <CommentOutlined /> {news?.comment_count} COMMENTS
               </span>
               <span>
-                <ProfileOutlined /> {data?.category}
+                <ProfileOutlined /> {news?.category}
               </span>
             </p>
 
-            <p style={{ fontSize: "20px" }}>{data?.description}</p>
+            <p style={{ fontSize: "20px" }}>{news?.description}</p>
           </div>
-          <h1>Author: {data?.author}</h1>
+          <h1>Author: {news?.author}</h1>
         </Col>
       </Row>
     </div>
@@ -99,14 +102,14 @@ NewsDetailPage.getLayout = function getLayout(page) {
 //   return { paths, fallback: true };
 // };
 
-// export const getServerSideProps = async (context) => {
-//   const { params } = context;
-//   const res = await fetch(`http://localhost:5000/news/${params?.newsId}`);
-//   const data = await res.json();
-
-//   return {
-//     props: {
-//       news: data,
-//     },
-//   };
-// };
+export const getServerSideProps = async (context) => {
+  const { params } = context;
+  const res = await fetch(`http://localhost:5000/news/${params?.newsId}`);
+  const data = await res.json();
+  console.log(data);
+  return {
+    props: {
+      news: data,
+    },
+  };
+};

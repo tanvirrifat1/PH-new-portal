@@ -4,8 +4,10 @@ import RootLayout from "@/components/Layouts/RootLayout";
 import AllNews from "@/components/UI/AllNews";
 import { useGetNewsesQuery } from "@/redux/api/api";
 import dynamic from "next/dynamic";
+import { Button } from "antd";
+import Link from "next/link";
 
-const HomePage = () => {
+const HomePage = ({ allNews }) => {
   const { data } = useGetNewsesQuery();
 
   const DynamicBanner = dynamic(() => import("@/components/UI/Banner"), {
@@ -25,6 +27,9 @@ const HomePage = () => {
       </Head>
       <DynamicBanner />
       <AllNews allNews={data} />
+      <Link href="/create">
+        <Button type="dashed">Create News</Button>
+      </Link>
     </>
   );
 };
@@ -34,15 +39,14 @@ HomePage.getLayout = function getLayout(page) {
   return <RootLayout>{page}</RootLayout>;
 };
 
-export const getServerSideProps = async () => {
-  const res = await fetch("http://localhost:5000/news");
-
-  const data = await res.json();
-
-  return {
-    props: {
-      allNews: data,
-    },
-    // revalidate: 10,
-  };
-};
+// export const getServerSideProps = async () => {
+//   const res = await fetch("http://localhost:3000/api/news");
+//   const data = await res.json();
+//   console.log(data);
+//   return {
+//     props: {
+//       allNews: data.data,
+//     },
+//     // revalidate: 10,
+//   };
+// };

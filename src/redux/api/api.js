@@ -2,13 +2,13 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const apiSlice = createApi({
   reducerPath: "api",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000" }),
   endpoints: (builder) => ({
     getNewses: builder.query({
-      query: () => "/news",
+      query: () => "/api/news",
     }),
     getSingleNews: builder.query({
-      query: (id) => `news/${id}`,
+      query: (id) => `api/news/${id}`,
     }),
   }),
 });
