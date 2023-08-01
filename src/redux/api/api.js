@@ -8,15 +8,15 @@ export const apiSlice = createApi({
       query: () => "/api/news",
     }),
     getSingleNews: builder.query({
-      query: (id) => `/api/news/${id}`,
+      query: (_id) => `/api/news/${_id}`,
     }),
-    postNews: builder.query({
-      query: ({ id, data }) => ({
-        url: `/api/news/${id}`,
-        method: "POST",
-        body: data,
-      }),
-    }),
+    // postNews: builder.query({
+    //   query: ({ id, data }) => ({
+    //     url: `/api/news/${id}`,
+    //     method: "POST",
+    //     body: data,
+    //   }),
+    // }),
   }),
 });
 

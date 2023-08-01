@@ -26,11 +26,11 @@ async function run(req, res) {
       res.json(result);
     }
 
-    // if (req.method === "GET") {
-    //   const id = req.params.id;
-    //   const news = await newsCollection.findOne({ _id: ObjectId(id) });
-    //   res.send({ message: "success", status: 200, data: news });
-    // }
+    if (req.method === "GET") {
+      const id = req.params.id;
+      const news = await newsCollection.findOne({ _id: ObjectId(id) });
+      res.send({ message: "success", status: 200, data: news });
+    }
   } finally {
     // await client.close();
   }
